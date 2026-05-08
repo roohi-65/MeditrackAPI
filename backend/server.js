@@ -8,7 +8,7 @@ app.use(cors());
 app.use(express.json());
 dotenv.config();
 
-//app.get('/', (req, res) => res.json({ message: 'MediTrack API Running ✅' }));
+
 
 // Connect DB and start server
 mongoose.connect(process.env.MONGO_URL)
