@@ -1,16 +1,21 @@
-import express from "express";
-import mongoose from "mongoose";
-import cors from "cors";
-import dotenv from "dotenv";
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import medicineRoutes from './routes/medicine.routes.js';
+import appointmentRoutes from './routes/appointment.routes.js';
+
+dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-dotenv.config();
 
+app.use('/api/medicines', medicineRoutes);
+app.use('/api/appointments', appointmentRoutes);
 
+app.get('/', (req, res) => res.json({ message: 'MediTrack API Running ✅' }));
 
-// Connect DB and start server
 mongoose.connect(process.env.MONGO_URL)
   .then(() => {
     console.log('MongoDB Connected ✅');
