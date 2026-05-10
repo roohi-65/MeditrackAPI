@@ -1,0 +1,280 @@
+.mtApp {
+  min-height: 100vh;
+}
+
+.mtHeader {
+  background: var(--navy);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.22);
+}
+
+.mtHeaderInner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 18px 16px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.mtBrand {
+  font-weight: 900;
+  letter-spacing: 0.2px;
+  font-size: 22px;
+}
+
+.mtTagline {
+  opacity: 0.9;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.mtMain {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 18px 16px 30px;
+}
+
+.mtTabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.mtTab {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--navy);
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 120ms ease, background 120ms ease, border-color 120ms ease,
+    box-shadow 120ms ease, color 120ms ease;
+}
+
+.mtTab:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+  border-color: rgba(14, 140, 140, 0.35);
+}
+
+.mtTab.isActive {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(14, 140, 140, 0.22);
+}
+
+.mtPanel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 16px;
+}
+
+.mtTitle {
+  margin: 0 0 12px;
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--navy);
+}
+
+.mtCard {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: var(--shadow);
+}
+
+.mtCardHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.mtCardHeaderTitle {
+  font-weight: 900;
+  color: var(--navy);
+}
+
+.mtGrid {
+  display: grid;
+  gap: 10px;
+  align-items: end;
+}
+
+.mtGrid.meds {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.mtGrid.appts {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.mtField {
+  display: grid;
+  gap: 6px;
+}
+
+.mtLabel {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.mtInput,
+.mtSelect,
+.mtTextarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
+  outline: none;
+  transition: box-shadow 120ms ease, border-color 120ms ease;
+}
+
+.mtTextarea {
+  resize: vertical;
+}
+
+.mtInput:focus,
+.mtSelect:focus,
+.mtTextarea:focus {
+  border-color: rgba(14, 140, 140, 0.7);
+  box-shadow: 0 0 0 4px rgba(14, 140, 140, 0.18);
+}
+
+.mtBtn {
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease,
+    border-color 120ms ease, opacity 120ms ease;
+}
+
+.mtBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+
+.mtBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.mtBtnPrimary {
+  background: var(--teal);
+  color: #fff;
+}
+
+.mtBtnPrimary:hover {
+  background: #0b7e7e;
+}
+
+.mtBtnDanger {
+  background: #dc2626;
+  color: #fff;
+}
+
+.mtBtnDanger:hover {
+  background: #b91c1c;
+}
+
+.mtError {
+  margin-top: 10px;
+  color: #b91c1c;
+  font-weight: 700;
+}
+
+.mtTableWrap {
+  overflow-x: auto;
+  border: 1px solid #d9e1ea; /* light gray borders */
+  border-radius: 14px;
+  background: #fff;
+}
+
+.mtTable {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 860px;
+}
+
+.mtTable thead th {
+  text-align: left;
+  padding: 12px;
+  background: #f1f5f9;
+  color: var(--navy);
+  border-bottom: 1px solid #d9e1ea;
+  font-size: 13px;
+}
+
+.mtTable tbody td {
+  padding: 12px;
+  border-top: 1px solid #d9e1ea;
+  vertical-align: top;
+}
+
+.mtTable tbody tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+.mtActions {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: capitalize;
+  border: 1px solid #d9e1ea;
+}
+
+.status-completed {
+  background: rgba(22, 163, 74, 0.12);
+  color: #166534;
+}
+
+.status-upcoming {
+  background: rgba(249, 115, 22, 0.12);
+  color: #9a3412;
+}
+
+.status-cancelled {
+  background: rgba(220, 38, 38, 0.12);
+  color: #7f1d1d;
+}
+
+@media (max-width: 980px) {
+  .mtGrid.meds,
+  .mtGrid.appts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mtHeaderInner {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .mtTagline {
+    margin-top: -2px;
+  }
+}
+
