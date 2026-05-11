@@ -16,7 +16,7 @@ function App() {
         fontSize: "24px",
         fontWeight: "bold"
       }}>
-        🏥 MediTrack — Personal Health & Appointment Manager
+        🏥 MediTrack Personal Health & Appointment Manager
       </div>
 
       {/* Tabs */}
