@@ -24,10 +24,10 @@
 
 Many people struggle to manage their health effectively due to:
 
-- **Forgetting medications** — missing doses leads to poor health outcomes
-- **Missing doctor appointments** — no simple reminder or tracking system
-- **Unreliable paper-based tracking** — notes get lost or forgotten
-- **No affordable digital tools** — existing apps are too complex or expensive for everyday users
+- **Forgetting medications** : missing doses leads to poor health outcomes
+- **Missing doctor appointments** : no simple reminder or tracking system
+- **Unreliable paper-based tracking** : notes get lost or forgotten
+- **No affordable digital tools** : existing apps are too complex or expensive for everyday users
 
 This is especially a problem for elderly patients, students, and busy working adults who need a simple, lightweight solution.
 
@@ -39,8 +39,8 @@ This is especially a problem for elderly patients, students, and busy working ad
 
 - Digitally track all their medicines with dosage, frequency, and schedule
 - Book, manage, and monitor doctor appointments
-- Filter appointments by status — **Upcoming**, **Completed**, **Cancelled**
-- Filter medicines by date status — **Active**, **Expired**, **Latest Added**
+- Filter appointments by status : **Upcoming**, **Completed**, **Cancelled**
+- Filter medicines by date status : **Active**, **Expired**, **Latest Added**
 - Receive clear success and error messages on every action
 - Access their health data through clean, well-documented API endpoints
 
@@ -55,7 +55,7 @@ The system is built following REST principles with proper validation and error h
 - Filter medicines by **Active** (endDate in future)
 - Filter medicines by **Expired** (endDate in past)
 - View **Latest 5** medicines added (newest first)
-- Auto status badge — Active ✅ or Expired ⚠️ on each record
+- Auto status badge : Active ✅ or Expired ⚠️ on each record
 
 ### 📅 Appointment Features
 - Book, view, update and cancel doctor appointments
@@ -63,7 +63,7 @@ The system is built following REST principles with proper validation and error h
 - Filter appointments by **Completed** status
 - Filter appointments by **Cancelled** status
 - View **Latest 5** appointments added
-- Color-coded status badges — 🟡 Upcoming · 🟢 Completed · 🔴 Cancelled
+- Color-coded status badges : 🟡 Upcoming · 🟢 Completed · 🔴 Cancelled
 
 ### 🔧 General Features
 - ✅ Success messages on every Create, Update, Delete action
@@ -175,7 +175,7 @@ http://localhost:5000/api
 | `PUT` | `/medicines/:id` | Update a medicine | 200, 400, 404 |
 | `DELETE` | `/medicines/:id` | Delete a medicine | 200, 404, 500 |
 
-#### Example — POST `/api/medicines`
+#### Example : POST `/api/medicines`
 
 **Request Body:**
 ```json
@@ -206,7 +206,7 @@ http://localhost:5000/api
 }
 ```
 
-#### Example — GET `/api/medicines/active`
+#### Example : GET `/api/medicines/active`
 
 **Response (200):**
 ```json
@@ -233,7 +233,7 @@ http://localhost:5000/api
 | `PUT` | `/appointments/:id` | Update an appointment | 200, 400, 404 |
 | `DELETE` | `/appointments/:id` | Cancel an appointment | 200, 404, 500 |
 
-#### Example — POST `/api/appointments`
+#### Example : POST `/api/appointments`
 
 **Request Body:**
 ```json
@@ -266,7 +266,7 @@ http://localhost:5000/api
 }
 ```
 
-#### Example — GET `/api/appointments/status/upcoming`
+#### Example : GET `/api/appointments/status/upcoming`
 
 **Response (200):**
 ```json
@@ -309,11 +309,11 @@ npm install
 Create a `.env` file inside the `backend/` folder:
 
 ```env
-MONGO_URI=mongodb+srv://<your-username>:<your-password>@cluster0.mongodb.net/meditrack
+MONGO_URL=mongodb://localhost:27017/meditrack
 PORT=5000
 ```
 
-> ⚠️ Replace `<your-username>` and `<your-password>` with your MongoDB Atlas credentials. Never commit this file to GitHub — it is listed in `.gitignore`.
+> ⚠️ Replace `<your-username>` and `<your-password>` with your MongoDB Atlas credentials. Never commit this file to GitHub it is listed in `.gitignore`.
 
 ### 4. Install Frontend Dependencies (Optional — Bonus)
 
@@ -458,7 +458,7 @@ The frontend was generated and refined using AI prompting in **Cursor IDE**, sat
 
 NN.Mowfika Roohi
 - Registration No: 2022/ICT/103
-- Module: IT2234 — Web Services & Server Technologies
+- Module: IT2234 Web Services & Server Technologies
 - Level: 2nd Year IT
 - ICA: 03 — Final Project
 - GitHub: [github.com/roohi-65/MeditrackAPI](https://github.com/roohi-65/MeditrackAPI)
