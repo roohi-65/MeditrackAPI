@@ -1,18 +1,14 @@
 import express from 'express';
-import {
-  createAppointment,
-  getAllAppointments,
-  getAppointmentById,
-  updateAppointment,
-  deleteAppointment
-} from '../controllers/appointment.controller.js';
+import * as ctrl from '../controllers/appointment.controller.js';
 
 const router = express.Router();
 
-router.post('/',      createAppointment);
-router.get('/',       getAllAppointments);
-router.get('/:id',    getAppointmentById);
-router.put('/:id',    updateAppointment);
-router.delete('/:id', deleteAppointment);
+router.post('/',                  ctrl.createAppointment);
+router.get('/',                   ctrl.getAllAppointments);
+router.get('/latest',             ctrl.getLatestAppointments);
+router.get('/status/:status',     ctrl.getByStatus);        // ← upcoming / completed / cancelled
+router.get('/:id',                ctrl.getAppointmentById);
+router.put('/:id',                ctrl.updateAppointment);
+router.delete('/:id',             ctrl.deleteAppointment);
 
 export default router;
