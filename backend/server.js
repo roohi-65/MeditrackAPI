@@ -1,17 +1,20 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import dotenv from 'dotenv';
-import medicineRoutes from './routes/medicine.routes.js';
-import appointmentRoutes from './routes/appointment.routes.js';
-
-dotenv.config();
+import medicineRoutes     from './routes/medicine.routes.js';
+import appointmentRoutes  from './routes/appointment.routes.js';
+import authRoutes         from './routes/auth.routes.js';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/medicines', medicineRoutes);
+// Routes
+app.use('/api/auth',         authRoutes);
+app.use('/api/medicines',    medicineRoutes);
 app.use('/api/appointments', appointmentRoutes);
 
 app.get('/', (req, res) => res.json({ message: 'MediTrack API Running ✅' }));
