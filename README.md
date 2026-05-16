@@ -1,6 +1,6 @@
-﻿# 🏥 MediTrack Personal Health & Appointment Manager
+# 🏥 MediTrack Personal Health & Appointment Manager
 
-> A RESTful API backend system built with **Node.js**, **Express.js**, and **MongoDB** that helps users manage their daily medicines and doctor appointments solving a real-world healthcare problem with clean, structured code.
+> A secure RESTful API backend system built with **Node.js**, **Express.js**, and **MongoDB** featuring **JWT Authentication**, smart filtering, and a React.js frontend solving a real-world healthcare management problem with clean, structured code.
 
 ---
 
@@ -13,10 +13,11 @@
 - [Project Structure](#-project-structure)
 - [Database Models](#-database-models)
 - [API Endpoints](#-api-endpoints)
+- [Authentication Flow](#-authentication-flow)
 - [Setup Instructions](#-setup-instructions)
 - [How to Run the Project](#-how-to-run-the-project)
 - [API Testing with Postman](#-api-testing-with-postman)
-- [Frontend (Bonus)](#-frontend-bonus---reactjs)
+- [Frontend (Bonus)](#-frontend-bonus-reactjs)
 
 ---
 
@@ -24,55 +25,59 @@
 
 Many people struggle to manage their health effectively due to:
 
-- **Forgetting medications** : missing doses leads to poor health outcomes
-- **Missing doctor appointments** : no simple reminder or tracking system
-- **Unreliable paper-based tracking** : notes get lost or forgotten
-- **No affordable digital tools** : existing apps are too complex or expensive for everyday users
-
-This is especially a problem for elderly patients, students, and busy working adults who need a simple, lightweight solution.
+- **Forgetting medications** missing doses leads to poor health outcomes
+- **Missing doctor appointments** no simple reminder or tracking system
+- **Unreliable paper-based tracking** notes get lost or forgotten
+- **No secure digital tools** sensitive health data needs proper authentication
+- **No affordable tools** existing apps are too complex or expensive for everyday users
 
 ---
 
 ## 💡 Proposed Solution
 
-**MediTrack** is a lightweight REST API backend system that allows users to:
+**MediTrack** is a secure REST API backend system that allows users to:
 
-- Digitally track all their medicines with dosage, frequency, and schedule
+- Register and login securely with **JWT Authentication**
+- Digitally track all medicines with dosage, frequency, and schedule
 - Book, manage, and monitor doctor appointments
-- Filter appointments by status : **Upcoming**, **Completed**, **Cancelled**
-- Filter medicines by date status : **Active**, **Expired**, **Latest Added**
+- Filter appointments by status **Upcoming**, **Completed**, **Cancelled**
+- Filter medicines by date status **Active**, **Expired**, **Latest Added**
 - Receive clear success and error messages on every action
-- Access their health data through clean, well-documented API endpoints
-
-The system is built following REST principles with proper validation and error handling, and is paired with a React.js frontend for an accessible user experience.
+- Access all data through a clean React.js frontend
 
 ---
 
 ## ✅ Features
 
+### 🔐 Authentication Features
+- User registration with **bcrypt** password hashing (salt rounds: 10)
+- JWT token generation on login (expires in 7 days)
+- All medicine and appointment routes **protected** by auth middleware
+- Token verification on every request via Authorization header
+- Get logged-in user profile via protected route
+
 ### 💊 Medicine Features
 - Add, view, update and delete medicines with full schedule details
-- Filter medicines by **Active** (endDate in future)
-- Filter medicines by **Expired** (endDate in past)
+- Filter by **Active** medicines (endDate in future)
+- Filter by **Expired** medicines (endDate in past)
 - View **Latest 5** medicines added (newest first)
-- Auto status badge : Active ✅ or Expired ⚠️ on each record
+- Auto status badge Active ✅ or Expired ⚠️
 
 ### 📅 Appointment Features
 - Book, view, update and cancel doctor appointments
-- Filter appointments by **Upcoming** status
-- Filter appointments by **Completed** status
-- Filter appointments by **Cancelled** status
+- Filter by **Upcoming**, **Completed**, **Cancelled** status
 - View **Latest 5** appointments added
-- Color-coded status badges : 🟡 Upcoming · 🟢 Completed · 🔴 Cancelled
+- Color-coded status badges
 
 ### 🔧 General Features
-- ✅ Success messages on every Create, Update, Delete action
-- ❌ Meaningful error messages with proper HTTP status codes
-- 🔢 Record count shown on all filtered views
+- ✅ Success messages on every Create, Update, Delete
+- ❌ Meaningful error messages with HTTP status codes
+- 🔢 Record count on all filter views
 - 🛡️ Input validation on all required fields
 - 🌐 CORS enabled for frontend integration
-- ⚛️ React.js frontend with live filter buttons (Vibe Coding)
-- 💬 Confirm dialog before every delete action
+- ⚛️ React.js frontend with login page and live filters (Vibe Coding)
+- 💬 Toast notifications for all user actions
+- 🗑️ Confirm dialog before every delete
 
 ---
 
@@ -84,6 +89,8 @@ The system is built following REST principles with proper validation and error h
 | Express.js | Web framework for building REST APIs |
 | MongoDB Atlas | Cloud NoSQL database |
 | Mongoose | ODM for schema definition and DB interaction |
+| JWT (jsonwebtoken) | Secure token-based authentication |
+| bcryptjs | Password hashing and verification |
 | dotenv | Environment variable management |
 | cors | Cross-Origin Resource Sharing support |
 | nodemon | Auto-restart during development |
@@ -100,23 +107,29 @@ The system is built following REST principles with proper validation and error h
 meditrack/
 ├── backend/
 │   ├── models/
+│   │   ├── user.model.js             # User schema (name, email, password)
 │   │   ├── medicine.model.js         # Medicine schema
 │   │   └── appointment.model.js      # Appointment schema
 │   ├── controllers/
+│   │   ├── auth.controller.js        # Register, Login, Get Profile
 │   │   ├── medicine.controller.js    # Medicine CRUD + filter logic
 │   │   └── appointment.controller.js # Appointment CRUD + filter logic
 │   ├── routes/
-│   │   ├── medicine.routes.js        # Medicine API routes
-│   │   └── appointment.routes.js     # Appointment API routes
+│   │   ├── auth.routes.js            # /register, /login, /profile
+│   │   ├── medicine.routes.js        # Medicine API routes (protected)
+│   │   └── appointment.routes.js     # Appointment API routes (protected)
+│   ├── middleware/
+│   │   └── auth.middleware.js        # JWT token verification middleware
 │   ├── .env                          # Environment variables (not committed)
 │   ├── server.js                     # Entry point
 │   └── package.json
 ├── frontend/                         # React.js frontend (Bonus)
 │   ├── src/
 │   │   ├── components/
+│   │   │   ├── Login.jsx             # Login & Register page
 │   │   │   ├── MedicineList.jsx      # Medicine UI with filters + toast
 │   │   │   └── AppointmentList.jsx   # Appointment UI with filters + toast
-│   │   ├── App.js                    # Tab navigation
+│   │   ├── App.js                    # Auth state + tab navigation
 │   │   └── index.js
 │   └── package.json
 └── README.md
@@ -125,6 +138,15 @@ meditrack/
 ---
 
 ## 🗄️ Database Models
+
+### User Collection
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| name | String | ✅ | Full name of the user |
+| email | String | ✅ | Unique email address |
+| password | String | ✅ | Hashed password (bcrypt) |
+| createdAt | Date | auto | Timestamp (auto-generated) |
 
 ### Medicine Collection
 
@@ -143,11 +165,11 @@ meditrack/
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | doctorName | String | ✅ | Name of the doctor |
-| specialty | String | ✅ | Doctor's specialty (e.g., Cardiologist) |
+| specialty | String | ✅ | Doctor's specialty |
 | date | Date | ✅ | Date of the appointment |
 | time | String | ✅ | Time of the appointment |
 | location | String | ❌ | Clinic or hospital name |
-| status | Enum | auto | `upcoming` / `completed` / `cancelled` (default: upcoming) |
+| status | Enum | auto | `upcoming` / `completed` / `cancelled` |
 | notes | String | ❌ | Additional notes |
 | createdAt | Date | auto | Timestamp (auto-generated) |
 
@@ -162,119 +184,98 @@ http://localhost:5000/api
 
 ---
 
-### 💊 Medicine Endpoints
+### 🔐 Auth Endpoints (Public)
 
 | Method | Endpoint | Description | Status Codes |
 |--------|----------|-------------|-------------|
-| `POST` | `/medicines` | Add a new medicine | 201, 400 |
-| `GET` | `/medicines` | Get all medicines (newest first) | 200, 500 |
-| `GET` | `/medicines/latest` | Get latest 5 medicines added | 200, 500 |
-| `GET` | `/medicines/active` | Get active medicines (endDate in future) | 200, 500 |
-| `GET` | `/medicines/expired` | Get expired medicines (endDate in past) | 200, 500 |
-| `GET` | `/medicines/:id` | Get one medicine by ID | 200, 404, 500 |
-| `PUT` | `/medicines/:id` | Update a medicine | 200, 400, 404 |
-| `DELETE` | `/medicines/:id` | Delete a medicine | 200, 404, 500 |
+| `POST` | `/auth/register` | Register a new user | 201, 400 |
+| `POST` | `/auth/login` | Login and get JWT token | 200, 401 |
+| `GET` | `/auth/profile` | Get logged-in user profile 🔒 | 200, 401 |
 
-#### Example : POST `/api/medicines`
-
-**Request Body:**
+#### Example — POST `/api/auth/register`
 ```json
 {
-  "name": "Paracetamol",
-  "dosage": "500mg",
-  "frequency": "Twice a day",
-  "startDate": "2025-05-01",
-  "endDate": "2025-05-10",
-  "notes": "Take after meals"
+  "name": "Mowfika Roohi",
+  "email": "mowfika@gmail.com",
+  "password": "123456"
 }
 ```
-
 **Response (201):**
 ```json
 {
-  "message": "✅ Medicine added successfully!",
-  "data": {
-    "_id": "664abc123def456789",
-    "name": "Paracetamol",
-    "dosage": "500mg",
-    "frequency": "Twice a day",
-    "startDate": "2025-05-01T00:00:00.000Z",
-    "endDate": "2025-05-10T00:00:00.000Z",
-    "notes": "Take after meals",
-    "createdAt": "2025-05-01T08:30:00.000Z"
-  }
+  "message": "✅ Registration successful! Please login.",
+  "user": { "id": "...", "name": "Mowfika Roohi", "email": "mowfika@gmail.com" }
 }
 ```
 
-#### Example : GET `/api/medicines/active`
-
+#### Example — POST `/api/auth/login`
+```json
+{
+  "email": "mowfika@gmail.com",
+  "password": "123456"
+}
+```
 **Response (200):**
 ```json
 {
-  "message": "💊 3 active medicine(s) found",
-  "count": 3,
-  "data": [ ... ]
+  "message": "✅ Welcome back, Mowfika Roohi!",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": { "id": "...", "name": "Mowfika Roohi", "email": "mowfika@gmail.com" }
 }
 ```
 
 ---
 
-### 📅 Appointment Endpoints
+### 💊 Medicine Endpoints 🔒 (Require Token)
 
-| Method | Endpoint | Description | Status Codes |
-|--------|----------|-------------|-------------|
-| `POST` | `/appointments` | Book a new appointment | 201, 400 |
-| `GET` | `/appointments` | Get all appointments (newest first) | 200, 500 |
-| `GET` | `/appointments/latest` | Get latest 5 appointments | 200, 500 |
-| `GET` | `/appointments/status/upcoming` | Get upcoming appointments | 200, 500 |
-| `GET` | `/appointments/status/completed` | Get completed appointments | 200, 500 |
-| `GET` | `/appointments/status/cancelled` | Get cancelled appointments | 200, 500 |
-| `GET` | `/appointments/:id` | Get one appointment by ID | 200, 404, 500 |
-| `PUT` | `/appointments/:id` | Update an appointment | 200, 400, 404 |
-| `DELETE` | `/appointments/:id` | Cancel an appointment | 200, 404, 500 |
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/medicines` | Add a new medicine |
+| `GET` | `/medicines` | Get all medicines (newest first) |
+| `GET` | `/medicines/latest` | Get latest 5 medicines |
+| `GET` | `/medicines/active` | Get active medicines (endDate in future) |
+| `GET` | `/medicines/expired` | Get expired medicines (endDate in past) |
+| `GET` | `/medicines/:id` | Get one medicine by ID |
+| `PUT` | `/medicines/:id` | Update a medicine |
+| `DELETE` | `/medicines/:id` | Delete a medicine |
 
-#### Example : POST `/api/appointments`
+---
 
-**Request Body:**
-```json
-{
-  "doctorName": "Dr. Perera",
-  "specialty": "Cardiologist",
-  "date": "2025-05-15",
-  "time": "10:30 AM",
-  "location": "Colombo National Hospital",
-  "status": "upcoming",
-  "notes": "Bring previous ECG report"
-}
+### 📅 Appointment Endpoints 🔒 (Require Token)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/appointments` | Book a new appointment |
+| `GET` | `/appointments` | Get all appointments (newest first) |
+| `GET` | `/appointments/latest` | Get latest 5 appointments |
+| `GET` | `/appointments/status/upcoming` | Get upcoming appointments |
+| `GET` | `/appointments/status/completed` | Get completed appointments |
+| `GET` | `/appointments/status/cancelled` | Get cancelled appointments |
+| `GET` | `/appointments/:id` | Get one appointment by ID |
+| `PUT` | `/appointments/:id` | Update an appointment |
+| `DELETE` | `/appointments/:id` | Cancel an appointment |
+
+> 🔒 All medicine and appointment endpoints require the JWT token in the request header:
+> ```
+> Authorization: Bearer YOUR_TOKEN_HERE
+> ```
+
+---
+
+## 🔐 Authentication Flow
+
 ```
+1. User registers  →  password hashed with bcrypt (10 salt rounds)
+                   →  stored in MongoDB (password never stored as plain text)
 
-**Response (201):**
-```json
-{
-  "message": "✅ Appointment booked successfully!",
-  "data": {
-    "_id": "664xyz789abc012345",
-    "doctorName": "Dr. Perera",
-    "specialty": "Cardiologist",
-    "date": "2025-05-15T00:00:00.000Z",
-    "time": "10:30 AM",
-    "location": "Colombo National Hospital",
-    "status": "upcoming",
-    "notes": "Bring previous ECG report",
-    "createdAt": "2025-05-01T09:00:00.000Z"
-  }
-}
-```
+2. User logs in    →  bcrypt compares entered password with stored hash
+                   →  if matched → JWT token generated (signed with JWT_SECRET)
+                   →  token sent back to client (expires in 7 days)
 
-#### Example : GET `/api/appointments/status/upcoming`
-
-**Response (200):**
-```json
-{
-  "message": "📅 2 upcoming appointment(s) found",
-  "count": 2,
-  "data": [ ... ]
-}
+3. Protected route →  client sends token in Authorization header
+                   →  auth middleware verifies token with JWT_SECRET
+                   →  if valid → request allowed → controller runs
+                   →  if invalid/missing → 401 Unauthorized returned
 ```
 
 ---
@@ -282,41 +283,31 @@ http://localhost:5000/api
 ## ⚙️ Setup Instructions
 
 ### Prerequisites
-
-Make sure you have the following installed:
-
 - [Node.js](https://nodejs.org/) (v16 or higher)
-- [npm](https://www.npmjs.com/)
-- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) account (free tier is fine)
+- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) account
 - [Postman](https://www.postman.com/) for API testing
 
 ### 1. Clone the Repository
-
 ```bash
 git clone https://github.com/roohi-65/MeditrackAPI.git
 cd MeditrackAPI
 ```
 
 ### 2. Install Backend Dependencies
-
 ```bash
 cd backend
 npm install
 ```
 
 ### 3. Configure Environment Variables
-
-Create a `.env` file inside the `backend/` folder:
-
+Create a `.env` file inside `backend/`:
 ```env
-MONGO_URL=mongodb://localhost:27017/meditrack
+MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/meditrack
 PORT=5000
+JWT_SECRET=meditrack_super_secret_key_2025
 ```
 
-> ⚠️ Replace `<your-username>` and `<your-password>` with your MongoDB Atlas credentials. Never commit this file to GitHub it is listed in `.gitignore`.
-
-### 4. Install Frontend Dependencies (Optional — Bonus)
-
+### 4. Install Frontend Dependencies (Optional)
 ```bash
 cd ../frontend
 npm install
@@ -327,51 +318,65 @@ npm install
 ## ▶️ How to Run the Project
 
 ### Run Backend
-
 ```bash
 cd backend
 npm start
 ```
-
-Server starts at: **`http://localhost:5000`**
-
 Expected output:
 ```
 MongoDB Connected ✅
 Server running on port 5000
 ```
 
-### Run Frontend (Optional — Bonus)
-
-Open a **second terminal** and run:
-
+### Run Frontend (Optional)
+Open a second terminal:
 ```bash
 cd frontend
 npm start
 ```
-
-React app opens at: **`http://localhost:3000`**
-
-> ⚠️ Make sure the backend is already running before starting the frontend!
+Opens at: **`http://localhost:3000`**
 
 ---
 
 ## 🧪 API Testing with Postman
 
-All endpoints have been tested using Postman.
-
-### How to Test
-
-1. Open **Postman**
-2. Set the request method (GET / POST / PUT / DELETE)
-3. Enter the URL
-4. For POST and PUT: go to **Body → raw → JSON** and paste the request body
-5. Click **Send**
-
-### All Endpoints to Test
-
+### Step 1 — Register
 ```
-# ── Medicines ──────────────────────────────────────
+POST http://localhost:5000/api/auth/register
+Body (raw JSON):
+{
+  "name": "Mowfika Roohi",
+  "email": "mowfika@gmail.com",
+  "password": "123456"
+}
+```
+
+### Step 2 — Login & Copy Token
+```
+POST http://localhost:5000/api/auth/login
+Body (raw JSON):
+{
+  "email": "mowfika@gmail.com",
+  "password": "123456"
+}
+```
+Copy the `token` value from the response.
+
+### Step 3 — Add Token to All Other Requests
+In Postman → **Headers** tab → add:
+```
+Key:   Authorization
+Value: Bearer YOUR_COPIED_TOKEN
+```
+
+### Step 4 — Test All Endpoints
+```
+# Auth
+POST   http://localhost:5000/api/auth/register
+POST   http://localhost:5000/api/auth/login
+GET    http://localhost:5000/api/auth/profile
+
+# Medicines (need token)
 POST   http://localhost:5000/api/medicines
 GET    http://localhost:5000/api/medicines
 GET    http://localhost:5000/api/medicines/latest
@@ -381,7 +386,7 @@ GET    http://localhost:5000/api/medicines/:id
 PUT    http://localhost:5000/api/medicines/:id
 DELETE http://localhost:5000/api/medicines/:id
 
-# ── Appointments ───────────────────────────────────
+# Appointments (need token)
 POST   http://localhost:5000/api/appointments
 GET    http://localhost:5000/api/appointments
 GET    http://localhost:5000/api/appointments/latest
@@ -393,54 +398,44 @@ PUT    http://localhost:5000/api/appointments/:id
 DELETE http://localhost:5000/api/appointments/:id
 ```
 
-### Postman Collection
-
-The exported Postman collection is included in this repository:
-📁 `postman/MediTrack.postman_collection.json`
-
-Import it into Postman: **File → Import → Upload the JSON file**
-
 ---
 
-## ⚛️ Frontend (Bonus) — React.js
+## ⚛️ Frontend (Bonus) React.js
 
-The optional frontend was built using **React.js** with **Cursor IDE** (Vibe Coding — AI-assisted development).
+Built with **React.js** using **Cursor IDE** (Vibe Coding AI assisted development).
 
-### Medicine Tab Filters
-| Button | What it shows |
-|--------|--------------|
-| 📋 All | All medicines, newest first |
-| 🆕 Newest | Latest 5 medicines added |
-| ✅ Active | Medicines with future end date |
-| ⚠️ Expired | Medicines with past end date |
+### Pages & Features
 
-### Appointment Tab Filters
-| Button | What it shows |
-|--------|--------------|
-| 📋 All | All appointments, newest first |
-| 🆕 Latest 5 | Most recently booked |
-| ⏰ Upcoming | Status = upcoming |
-| ✅ Completed | Status = completed |
-| ❌ Cancelled | Status = cancelled |
+**Login / Register Page:**
+- Toggle between Login and Register forms
+- JWT token stored in localStorage after login
+- Auto-login if token exists from previous session
+- Error messages displayed inline
 
-### UI Features
-- Toast notification (green ✅ / red ❌) on every add, delete, or error
-- Color-coded status badges on every appointment row
-- Active / Expired badge on every medicine row
-- Record count display next to filter bar
-- Confirm dialog before every delete
+**Medicine Tab:**
+- 📋 All · 🆕 Newest · ✅ Active · ⚠️ Expired filter buttons
+- Add form with validation
+- Auto Active/Expired status badge on each row
+- Toast notifications on add/delete
 
-### Vibe Coding
-The frontend was generated and refined using AI prompting in **Cursor IDE**, satisfying the Vibe Coding bonus requirement of the assignment.
+**Appointment Tab:**
+- 📋 All · 🆕 Latest 5 · ⏰ Upcoming · ✅ Completed · ❌ Cancelled
+- Color-coded status badges
+- Toast notifications on add/delete
+
+**Header:**
+- Shows logged-in user's name
+- Logout button clears token and redirects to login
 
 ---
 
 ## 📝 Git Commit History
 
 ```
-✅ Update README - all features, filters and new endpoints documented
-✅ Add filters - upcoming/completed/cancelled appointments, active/expired/latest medicines
-✅ Add React frontend - medicine and appointment UI with filters and toast (Vibe Coding)
+✅ Update README - JWT auth, all features documented
+✅ Add JWT authentication - register, login, protected routes with bcrypt
+✅ Add filters - upcoming/completed/cancelled appointments, active/expired medicines
+✅ Add React frontend - UI with login, filters and toast (Vibe Coding)
 ✅ Backend complete - all endpoints tested with Postman
 ✅ Add Appointment routes - full CRUD + status filters
 ✅ Add Medicine routes - full CRUD + active/expired/latest filters
@@ -460,12 +455,11 @@ NN.Mowfika Roohi
 - Registration No: 2022/ICT/103
 - Module: IT2234 Web Services & Server Technologies
 - Level: 2nd Year IT
-- ICA: 03 — Final Project
+- ICA: 03  Final Project
 - GitHub: [github.com/roohi-65/MeditrackAPI](https://github.com/roohi-65/MeditrackAPI)
 
 ---
 
 ## 📄 License
 
-This project is submitted as academic coursework for **IT2234 — Web Services & Server Technologies**.
-
+This project is submitted as academic coursework for **IT2234 Web Services & Server Technologies**.
