@@ -400,7 +400,7 @@ DELETE http://localhost:5000/api/appointments/:id
 
 ---
 
-## ⚛️ Frontend (Bonus) React.js
+## ⚛️ Frontend React.js
 
 Built with **React.js** using **Cursor IDE** (Vibe Coding AI assisted development).
 
