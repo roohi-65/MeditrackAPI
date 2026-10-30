@@ -79,3 +79,12 @@ export const getProfile = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+export const deleteAllUsers = async (req, res) => {
+  try {
+    const result = await User.deleteMany({});
+    res.json({ message: `🗑️ ${result.deletedCount} user(s) deleted` });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

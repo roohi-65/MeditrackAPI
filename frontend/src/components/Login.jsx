@@ -4,10 +4,11 @@ import axios from "axios";
 const API = "http://localhost:5000/api/auth";
 
 export default function Login({ onLogin }) {
-  const [isRegister, setIsRegister] = useState(false);
-  const [form, setForm] = useState({ name:"", email:"", password:"" });
-  const [error, setError]   = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [isRegister, setIsRegister]   = useState(false);
+  const [form, setForm]               = useState({ name: "", email: "", password: "" });
+  const [error, setError]             = useState(null);
+  const [loading, setLoading]         = useState(false);
+  const [showPassword, setShowPassword] = useState(false);   // ← NEW
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,13 +23,12 @@ export default function Login({ onLogin }) {
       const res = await axios.post(url, body);
 
       if (isRegister) {
-        setError(null);
         alert(res.data.message);
         setIsRegister(false);
+        setShowPassword(false);
       } else {
-        // Save token to localStorage
-        localStorage.setItem('token', res.data.token);
-        localStorage.setItem('user',  JSON.stringify(res.data.user));
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user", JSON.stringify(res.data.user));
         onLogin(res.data.user, res.data.token);
       }
     } catch (err) {
@@ -60,13 +60,13 @@ export default function Login({ onLogin }) {
 
         {/* Tab Buttons */}
         <div style={{ display: "flex", marginBottom: 24, borderRadius: 8, overflow: "hidden", border: "1px solid #e2e8f0" }}>
-          <button onClick={() => setIsRegister(false)} style={{
+          <button type="button" onClick={() => { setIsRegister(false); setError(null); }} style={{
             flex: 1, padding: "10px", border: "none", cursor: "pointer",
             fontWeight: "bold", fontSize: 14,
             backgroundColor: !isRegister ? "#0E8C8C" : "#f8f9fa",
             color: !isRegister ? "#fff" : "#333",
           }}>Login</button>
-          <button onClick={() => setIsRegister(true)} style={{
+          <button type="button" onClick={() => { setIsRegister(true); setError(null); }} style={{
             flex: 1, padding: "10px", border: "none", cursor: "pointer",
             fontWeight: "bold", fontSize: 14,
             backgroundColor: isRegister ? "#0E8C8C" : "#f8f9fa",
@@ -86,15 +86,40 @@ export default function Login({ onLogin }) {
         <form onSubmit={handleSubmit}>
           {isRegister && (
             <input placeholder="Full Name *" value={form.name}
-              onChange={e => setForm({...form, name: e.target.value})}
+              onChange={e => setForm({ ...form, name: e.target.value })}
               required style={inp} />
           )}
+
           <input placeholder="Email Address *" type="email" value={form.email}
-            onChange={e => setForm({...form, email: e.target.value})}
+            onChange={e => setForm({ ...form, email: e.target.value })}
             required style={inp} />
-          <input placeholder="Password *" type="password" value={form.password}
-            onChange={e => setForm({...form, password: e.target.value})}
-            required style={inp} />
+
+          {/* Password field with Show/Hide toggle */}
+          <div style={{ position: "relative", marginBottom: 12 }}>
+            <input
+              placeholder="Password *"
+              type={showPassword ? "text" : "password"}
+              value={form.password}
+              onChange={e => setForm({ ...form, password: e.target.value })}
+              required
+              style={{ ...inp, marginBottom: 0, paddingRight: 70 }}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+              style={{
+                position: "absolute", right: 8, top: "50%",
+                transform: "translateY(-50%)",
+                background: "none", border: "none", cursor: "pointer",
+                color: "#0E8C8C", fontWeight: "bold", fontSize: 13,
+                padding: "4px 8px"
+              }}
+            >
+              {showPassword ? "🙈 Hide" : "👁 Show"}
+            </button>
+          </div>
+
           <button type="submit" disabled={loading} style={{
             width: "100%", padding: "12px", backgroundColor: "#0D2B45",
             color: "#fff", border: "none", borderRadius: 8,
